@@ -4,7 +4,6 @@ const res = require("express/lib/response");
 const port = 8001;
 let app = express();
 let address = require("./address.json") 
-        console.log(req);
 function Validator(req, res, next) { 
     console.log("akash");
     console.log(req.body);
@@ -14,7 +13,6 @@ function Validator(req, res, next) {
             res.statusCode = 400
             res.end(`Error occured`)
         }
-        next();
     }
     else if(req.method === "PATCH") {
         if(req.id === null || req.body.city.length < 3 ) {
@@ -30,9 +28,8 @@ function Validator(req, res, next) {
             res.end(`Error occured`)
 
         }
-        next()
     }
-
+    next()
  }
 app.use(express.json());
 app.use(Validator)
@@ -43,7 +40,7 @@ app.get("/GET/api/addresses", (req, res) => {
   }
   catch(e)  {
       res.statusCode = 400
-      res.end(`{"error occured"}`)
+      res.end(`{"error occured IN get"}`)
   }
 });
 
@@ -65,6 +62,7 @@ app.patch("/PATCH/api/addresses", (req, res) => {
         add.city = req.body.city;
         res.json(add)
     } catch (error) {
+        res.statusCode = 400
         res.end(`{"error occured in patch"}`)
     }
 });
